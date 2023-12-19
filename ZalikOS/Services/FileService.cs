@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZalikOS.Models;
 
 namespace ZalikOS.Services
 {
@@ -13,14 +12,14 @@ namespace ZalikOS.Services
 
         public static void ProcessingQuestion(string path)
         {
-            var data = new List<QuestionAnswerPair>();
+            var data = new Dictionary<string, string>();
 
             try
             {
                 string[] lines = File.ReadAllLines(Path.Combine(_dataFolderPath, path), Encoding.Unicode);
                 for (int i = 0; i < lines.Length; i += 3)
                 {
-                    data.Add(new QuestionAnswerPair(lines[i].Trim(), lines[i + 1].Trim()));
+                    data.Add(lines[i].Trim(), lines[i + 1].Trim());
                 }
             }
             catch (Exception e)

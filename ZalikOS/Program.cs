@@ -1,5 +1,4 @@
-﻿using ZalikOS.Models;
-using ZalikOS.Services;
+﻿using ZalikOS.Services;
 
 namespace ZalikOS
 {
@@ -10,7 +9,12 @@ namespace ZalikOS
             Console.OutputEncoding = System.Text.Encoding.Unicode;
             Console.InputEncoding = System.Text.Encoding.Unicode;
             //FileService.ProcessingQuestion("Questions.txt");
-            ParseHTMLService.Processing("chromedriver.exe");
+            var data = JsonService.LoadData<Dictionary<string, string>>("QAData.json");
+            foreach (var item in data)
+            {
+                Console.WriteLine(item.Key + " " + data[item.Key]);
+            }
+            ParseHTMLService.Processing("chromedriver.exe", data);
         }
     }
 }
