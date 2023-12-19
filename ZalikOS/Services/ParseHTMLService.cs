@@ -9,18 +9,16 @@ namespace ZalikOS.Services
     {
         private static readonly string _dataFolderPath = @"..\..\..\ChromeDriver\";
         private static string _previousPageContent = string.Empty;
-        public static void Processing(string path, Dictionary<string, string> data)
+        public static void Processing(string path, string url, Dictionary<string, string> data)
         {
 
             using (IWebDriver driver = new ChromeDriver(Path.Combine(_dataFolderPath, path)))
             {
-                driver.Navigate().GoToUrl("http://localhost");
+                driver.Navigate().GoToUrl(Path.Combine("http:\\", url));
                 var actions = new Actions(driver);
                 IWebElement inputElement = null;
-                var counter = 0;
                 while (true)
                 {
-                    if (counter == 20) return;
                     var currentPageContent = driver.PageSource;
                     var extractedText = ProcessingText(ExtractText(currentPageContent));
                     var foundedAnswer = " ";
@@ -30,16 +28,16 @@ namespace ZalikOS.Services
                         inputElement = driver.FindElement(By.Name("answer"));
                         inputElement.SendKeys(foundedAnswer);
                         actions.SendKeys(Keys.Enter).Perform();
-                        counter++;
                     }
-                    Console.WriteLine(foundedAnswer);
+                    Console.WriteLine(extractedText + " " + foundedAnswer);
                     if (!string.Equals(currentPageContent, _previousPageContent))
                     {
                         _previousPageContent = currentPageContent;
                     }
-                    Thread.Sleep(1250);
+                    Thread.Sleep(500);
                 }
             }
+
         }
 
         public static string ExtractText(string htmlContent)

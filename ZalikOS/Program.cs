@@ -8,13 +8,11 @@ namespace ZalikOS
         {
             Console.OutputEncoding = System.Text.Encoding.Unicode;
             Console.InputEncoding = System.Text.Encoding.Unicode;
-            //FileService.ProcessingQuestion("Questions.txt");
             var data = JsonService.LoadData<Dictionary<string, string>>("QAData.json");
-            foreach (var item in data)
-            {
-                Console.WriteLine(item.Key + " " + data[item.Key]);
-            }
-            ParseHTMLService.Processing("chromedriver.exe", data);
+            Console.WriteLine("Input url: ");
+            var url = Console.ReadLine();
+            ParseHTMLService.Processing("chromedriver.exe", url, data);
+            Console.ReadKey();
         }
     }
 }
